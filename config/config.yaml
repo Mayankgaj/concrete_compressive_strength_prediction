@@ -1,3 +1,11 @@
 training_pipeline_config:
   pipeline_name: concrete
   artifact_dir: artifact
+
+data_ingestion_config:
+  author_username : elikplim
+  kaggel_dataset_name : concrete-compressive-strength-data-set
+  raw_data_dir: raw_data
+  ingested_dir: ingested_data
+  ingested_train_dir: train
+  ingested_test_dir: test
