@@ -1,7 +1,10 @@
-numpy
-pandas
-sklearn
-Flask
-gunicorn
-PyYAML
+numpy~=1.23.1
+pandas~=1.4.3
+sklearn~=0.0
+Flask~=2.1.2
+gunicorn~=20.1.0
+PyYAML~=6.0
+scikit-learn~=1.1.1
+setuptools==63.1.0
+kaggle~=1.5.12
 -e .
