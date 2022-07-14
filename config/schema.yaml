@@ -7,6 +7,7 @@ columns:
   coarse_aggregate: float64
   fine_aggregate: float64
   age: int64
+  concrete_compressive_strength: float64
 
 target_column: concrete_compressive_strength
 
