@@ -1,15 +1,14 @@
 from concrete.config.configuration import Configuration
-from concrete.logger import logging
 from concrete.exception import ConcreteException
-
 from concrete.entity.artifact_entity import DataIngestionArtifact, DataValidationArtifact, DataTransformationArtifact, \
-    ModelTrainerArtifact
-from concrete.entity.config_entity import DataIngestionConfig
+    ModelTrainerArtifact, ModelEvaluationArtifact, ModelPusherArtifact
 from concrete.component.data_ingestion import DataIngestion
 from concrete.component.data_validation import DataValidation
 from concrete.component.data_transformation import DataTransformation
 from concrete.component.model_trainer import ModelTrainer
-import os, sys
+from concrete.component.model_evaluation import ModelEvaluation
+from concrete.component.model_pusher import ModelPusher
+import sys
 
 
 class Pipeline:
@@ -57,6 +56,29 @@ class Pipeline:
                                          data_transformation_artifact=data_transformation_artifact
                                          )
             return model_trainer.initiate_model_trainer()
+        except Exception as e:
+            raise ConcreteException(e, sys) from e
+
+    def start_model_evaluation(self, data_ingestion_artifact: DataIngestionArtifact,
+                               data_validation_artifact: DataValidationArtifact,
+                               model_trainer_artifact: ModelTrainerArtifact) -> ModelEvaluationArtifact:
+        try:
+            model_eval = ModelEvaluation(
+                model_evaluation_config=self.config.get_model_evaluation_config(),
+                data_ingestion_artifact=data_ingestion_artifact,
+                data_validation_artifact=data_validation_artifact,
+                model_trainer_artifact=model_trainer_artifact)
+            return model_eval.initiate_model_evaluation()
+        except Exception as e:
+            raise ConcreteException(e, sys) from e
+
+    def start_model_pusher(self, model_eval_artifact: ModelEvaluationArtifact) -> ModelPusherArtifact:
+        try:
+            model_pusher = ModelPusher(
+                model_pusher_config=self.config.get_model_pusher_config(),
+                model_evaluation_artifact=model_eval_artifact
+            )
+            return model_pusher.initiate_model_pusher()
         except Exception as e:
             raise ConcreteException(e, sys) from e
 
