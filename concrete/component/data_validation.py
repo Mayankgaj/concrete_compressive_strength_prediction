@@ -16,6 +16,23 @@ class DataValidation:
 
     def __init__(self, data_validation_config: DataValidationConfig,
                  data_ingestion_artifact: DataIngestionArtifact):
+        """
+        Description: Function is used to get
+                     Validation config to validate the column name,
+                     number of columns and target columns
+                     ingestion config to get the directory path
+        param data_validation_config: schema_dir: directory name of schema file
+                                      schema_file_name: name of schema file
+                                      report_file_name: name of report of data drift
+                                      report_page_file_name: name of the html file of report
+        param data_ingestion_artifact: author_username : username of the author
+                                       kaggel_dataset_name : name of the dataset
+                                       raw_data_dir: name of directory for download the dataset
+                                       ingested_dir: name of directory where to split file
+                                       ingested_train_dir: name of directory to save train file
+                                       ingested_test_dir: name of directory to save test file
+
+        """
         try:
             logging.info(f"{'>>' * 20}Data Validation log started.{'<<' * 20} ")
             self.data_validation_config = data_validation_config
@@ -24,6 +41,10 @@ class DataValidation:
             raise ConcreteException(e, sys) from e
 
     def get_train_and_test_df(self):
+        """
+        Description: Function is used to read the train file and test file and convert it into dataframe
+        return: train and test dataframe
+        """
         try:
             train_df = pd.read_csv(self.data_ingestion_artifact.train_file_path)
             test_df = pd.read_csv(self.data_ingestion_artifact.test_file_path)
@@ -54,6 +75,11 @@ class DataValidation:
             raise ConcreteException(e, sys) from e
 
     def validate_dataset_schema(self) -> bool:
+        """
+        Description: This Function is used to validate the train and test file with schema config
+        return: Validating status True or False, True that schema config matches with train and test file
+                False for not matching with schema config
+        """
         try:
             config = read_yaml_file(self.data_validation_config.schema_file_path)
             len_col = config["number_of_column"]
@@ -120,6 +146,10 @@ class DataValidation:
             raise ConcreteException(e, sys) from e
 
     def get_and_save_data_drift_report(self):
+        """
+        Description: Function is used to get the report of data drift in the train and test file
+        return: It returns the report of data drift in json file
+        """
         try:
             profile = Profile(sections=[DataDriftProfileSection])
 
@@ -140,6 +170,10 @@ class DataValidation:
             raise ConcreteException(e, sys) from e
 
     def save_data_drift_report_page(self):
+        """
+        Description: Function is used to get the report of data drift in the train and test file
+        return: It returns the report in html format to view it
+        """
         try:
             dashboard = Dashboard(tabs=[DataDriftTab])
             train_df, test_df = self.get_train_and_test_df()
@@ -154,6 +188,10 @@ class DataValidation:
             raise ConcreteException(e, sys)from e
 
     def is_data_drift_found(self) -> bool:
+        """
+        Description: Function is used to get if data drift found or not
+        return: True if data drift found or False if not found
+        """
         try:
             report = self.get_and_save_data_drift_report()
             self.save_data_drift_report_page()
@@ -162,6 +200,13 @@ class DataValidation:
             raise ConcreteException(e, sys) from e
 
     def initiate_data_validation(self) -> DataValidationArtifact:
+        """
+        Description: This function is used to start the data validation
+        return: schema_dir: directory name of schema file
+                            schema_file_name: name of schema file
+                            report_file_name: name of report of data drift
+                            report_page_file_name: name of the html file of report
+        """
         try:
             self.is_train_test_file_exists()
             self.validate_dataset_schema()
@@ -172,7 +217,7 @@ class DataValidation:
                 report_file_path=self.data_validation_config.report_file_path,
                 report_page_file_path=self.data_validation_config.report_page_file_path,
                 is_validated=True,
-                message="Data Validation performed successully."
+                message="Data Validation performed successfully."
             )
             logging.info(f"Data validation artifact: {data_validation_artifact}")
             return data_validation_artifact

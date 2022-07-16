@@ -17,6 +17,29 @@ class ModelEvaluation:
                  data_ingestion_artifact: DataIngestionArtifact,
                  data_validation_artifact: DataValidationArtifact,
                  model_trainer_artifact: ModelTrainerArtifact):
+        """
+        Description: Function is used to get data
+                     Evaluation config to evaluate model
+        param model_evaluation_config: model_evaluation_file_name: name of the model file
+        param data_ingestion_artifact:author_username : username of the author
+                                      kaggel_dataset_name : name of the dataset
+                                      raw_data_dir: name of directory for download the dataset
+                                      ingested_dir: name of directory where to split file
+                                      ingested_train_dir: name of directory to save train file
+                                      ingested_test_dir: name of directory to save test file
+        param data_validation_artifact:directory name of schema file
+                                       schema_file_name: name of schema file
+                                       report_file_name: name of report of data drift
+                                       report_page_file_name: name of the html file of report
+        param model_trainer_artifact: is_trained: True if model is trained or False if not
+                                      message: message after completing training model
+                                      trained_model_file_path: Path of trained model
+                                      train_rmse: rmse score of the trained file
+                                      test_rmse: rmse score of the test file
+                                      train_accuracy: accuracy of train file
+                                      test_accuracy: accuracy of test file
+                                      model_accuracy: accuracy of model
+        """
         try:
             logging.info(f"{'>>' * 30}Model Evaluation log started.{'<<' * 30} ")
             self.model_evaluation_config = model_evaluation_config
@@ -27,6 +50,10 @@ class ModelEvaluation:
             raise ConcreteException(e, sys) from e
 
     def get_best_model(self):
+        """
+        Description: Function is used to get best model from model file
+        return: model:model with best score
+        """
         try:
             model = None
             model_evaluation_file_path = self.model_evaluation_config.model_evaluation_file_path
@@ -48,6 +75,12 @@ class ModelEvaluation:
             raise ConcreteException(e, sys) from e
 
     def update_evaluation_report(self, model_evaluation_artifact: ModelEvaluationArtifact):
+        """
+        Description: Function write the best model in yml file
+        param model_evaluation_artifact:is_model_accepted: True if model evaluated or False
+                                        evaluated_model_path: Path to model config
+        return: model file
+        """
         try:
             eval_file_path = self.model_evaluation_config.model_evaluation_file_path
             model_eval_content = read_yaml_file(file_path=eval_file_path)

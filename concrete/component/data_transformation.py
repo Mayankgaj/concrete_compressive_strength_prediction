@@ -16,6 +16,25 @@ class DataTransformation:
                  data_ingestion_artifact: DataIngestionArtifact,
                  data_validation_artifact: DataValidationArtifact
                  ):
+        """
+        Description: This Function is used to get the data transformation ,data ingestion and
+                     data validation config
+        param data_transformation_config: transformed_dir: Directory name where data transformation will save
+                                          transformed_train_dir: Directory name where train transformed file will save
+                                          transformed_test_dir: Directory name where test transformed file will save
+                                          preprocessing_dir: Directory name where preprocessed file will save
+                                          preprocessed_object_file_name: File name of preprocessed
+        param data_ingestion_artifact: author_username : username of the author
+                                       kaggel_dataset_name : name of the dataset
+                                       raw_data_dir: name of directory for download the dataset
+                                       ingested_dir: name of directory where to split file
+                                       ingested_train_dir: name of directory to save train file
+                                       ingested_test_dir: name of directory to save test file
+        param data_validation_artifact: schema_dir: directory name of schema file
+                                      schema_file_name: name of schema file
+                                      report_file_name: name of report of data drift
+                                      report_page_file_name: name of the html file of report
+        """
         try:
             logging.info(f"{'=' * 20}Data Transformation log started.{'=' * 20} ")
             self.data_transformation_config = data_transformation_config
@@ -26,6 +45,15 @@ class DataTransformation:
             raise ConcreteException(e, sys) from e
 
     def initiate_data_transformation(self) -> DataTransformationArtifact:
+        """
+        Description: Function is used to standardize the data(train and test both) with standard scaler and
+                     saved it in array form
+        return: is_transformed: Ture for transform and False for not transform
+                message: message after data transform completed
+                transformed_train_file_path: Path of transformed train file
+                transformed_test_file_path: Path of transformed test file
+                preprocessed_object_file_path: Save preprocessed object for predict data
+        """
         try:
             logging.info(f"Obtaining preprocessing object.")
             preprocessing_obj = StandardScaler()

@@ -275,7 +275,7 @@ class ModelFactory:
                                                              output_feature) -> GridSearchedBestModel:
         """
         initiate_best_model_parameter_search(): function will perform parameter search operation and
-        it will return you the best optimistic  model with best parameter:
+        it will return you the best optimistic  model with the best parameter:
         estimator: Model object
         param_grid: dictionary of parameter to perform search operation
         input_feature: your all input features

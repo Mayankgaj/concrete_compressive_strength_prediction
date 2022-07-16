@@ -11,6 +11,12 @@ class ModelPusher:
     def __init__(self, model_pusher_config: ModelPusherConfig,
                  model_evaluation_artifact: ModelEvaluationArtifact
                  ):
+        """
+        Description: Function is used for getting model pusher config and model evaluation path
+        param model_pusher_config: export_dir_path: path of model where it is export
+        param model_evaluation_artifact: is_model_accepted : True is model accepted or False if not
+                                         evaluated_model_path: path of the model
+        """
         try:
             logging.info(f"{'>>' * 30}Model Pusher log started.{'<<' * 30} ")
             self.model_pusher_config = model_pusher_config
@@ -20,6 +26,10 @@ class ModelPusher:
             raise ConcreteException(e, sys) from e
 
     def export_model(self) -> ModelPusherArtifact:
+        """
+        Description: Function is used to export the model to new directory
+        return: Export directory
+        """
         try:
             evaluated_model_file_path = self.model_evaluation_artifact.evaluated_model_path
             export_dir = self.model_pusher_config.export_dir_path

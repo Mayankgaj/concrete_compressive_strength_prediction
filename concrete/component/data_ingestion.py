@@ -11,6 +11,16 @@ import sys, os
 class DataIngestion:
 
     def __init__(self, data_ingestion_config: DataIngestionConfig):
+        """
+        Description: Function is used to get ingestion config
+        param data_ingestion_config:
+                author_username : username of the author
+                kaggel_dataset_name : name of the dataset
+                raw_data_dir: name of directory for download the dataset
+                ingested_dir: name of directory where to split file
+                ingested_train_dir: name of directory to save train file
+                ingested_test_dir: name of directory to save test file
+        """
         try:
             logging.info(f"{'>>' * 20}Data Ingestion log started.{'<<' * 20} ")
             self.data_ingestion_config = data_ingestion_config
@@ -19,6 +29,10 @@ class DataIngestion:
             raise ConcreteException(e, sys)
 
     def download_concrete_data(self, ) -> str:
+        """
+        Description: Function is used to download the data from kaggle website.
+        return: Path of downloaded file from kaggle
+        """
         try:
             # extraction remote url to download dataset
             username = self.data_ingestion_config.author_username
@@ -40,6 +54,14 @@ class DataIngestion:
             raise ConcreteException(e, sys) from e
 
     def split_data_as_train_test(self) -> DataIngestionArtifact:
+        """
+        Description: function is used to split the dataset into test and train file
+        return:
+            train_file_path: directory of train file
+            test_file_path: directory of test file
+            is_ingested: True if ingested or False
+            message: message after completing
+        """
         try:
             raw_data_dir = self.data_ingestion_config.raw_data_dir
 
@@ -82,6 +104,10 @@ class DataIngestion:
             raise ConcreteException(e, sys) from e
 
     def initiate_data_ingestion(self) -> DataIngestionArtifact:
+        """
+        Description: Function is used to start data ingestion
+        return: train and test file path with message
+        """
         try:
             self.download_concrete_data()
             return self.split_data_as_train_test()

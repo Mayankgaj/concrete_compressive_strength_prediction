@@ -39,6 +39,18 @@ class ModelTrainer:
 
     def __init__(self, model_trainer_config: ModelTrainerConfig,
                  data_transformation_artifact: DataTransformationArtifact):
+        """
+
+        param model_trainer_config: trained_model_file_path: Path of trained model
+                                    base_accuracy: accuracy given for base model if it is less than this it will be
+                                                   rejected
+                                    model_config_file_path: Path to model config
+        param data_transformation_artifact: is_transformed: Ture for transform and False for not transform
+                                             message: message after data transform completed
+                                             transformed_train_file_path: Path of transformed train file
+                                             transformed_test_file_path: Path of transformed test file
+                                             preprocessed_object_file_path: Save preprocessed object for predict data
+        """
         try:
             logging.info(f"{'>>' * 30}Model trainer log started.{'<<' * 30} ")
             self.model_trainer_config = model_trainer_config
@@ -47,6 +59,19 @@ class ModelTrainer:
             raise ConcreteException(e, sys) from e
 
     def initiate_model_trainer(self) -> ModelTrainerArtifact:
+        """
+        Description: Function is used to train model on both test and train model and compare the base accuracy with
+                     model accuracy and get rmse score of both train and test file
+
+        return: is_trained: True if model is trained or False if not
+                message: message after completing training model
+                trained_model_file_path: Path of trained model
+                train_rmse: rmse score of the trained file
+                test_rmse: rmse score of the test file
+                train_accuracy: accuracy of train file
+                test_accuracy: accuracy of test file
+                model_accuracy: accuracy of model
+        """
         try:
             logging.info(f"Loading transformed training dataset")
             transformed_train_file_path = self.data_transformation_artifact.transformed_train_file_path
