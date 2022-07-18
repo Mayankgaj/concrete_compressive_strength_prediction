@@ -102,7 +102,7 @@ class DataValidation:
                              f"length of columns in train file is {len_col_train}, required length is {len_col}")
 
             # Check column names in train file
-            col_names = list(train_df.columns.str.rstrip()[:-1])
+            col_names = list(train_df.columns.str.rstrip())
             if names_of_columns != col_names:
                 train_checked: bool = False
                 logging.info("columns name not matching with schema config in train file")
@@ -128,7 +128,7 @@ class DataValidation:
                              f"length of columns in test file is {len_col_test}, required length is {len_col}")
 
             # Check column names in test file
-            col_names = list(test_df.columns.str.rstrip()[:-1])
+            col_names = list(test_df.columns.str.rstrip())
             if names_of_columns != col_names:
                 test_checked: bool = False
                 logging.info("columns name not matching with schema config in test file")
