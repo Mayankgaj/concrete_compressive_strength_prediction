@@ -152,7 +152,7 @@ class DataValidation:
         return: It returns the report of data drift in json file
         """
         try:
-            profile = Profile(sections=[DataDriftProfileSection])
+            profile = Profile(sections=[DataDriftProfileSection()])
 
             train_df, test_df = self.get_train_and_test_df()
 
@@ -177,7 +177,7 @@ class DataValidation:
         return: It returns the report in html format to view it
         """
         try:
-            dashboard = Dashboard(tabs=[DataDriftTab])
+            dashboard = Dashboard(tabs=[DataDriftTab()])
             train_df, test_df = self.get_train_and_test_df()
             dashboard.calculate(train_df, test_df)
 
