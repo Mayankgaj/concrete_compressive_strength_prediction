@@ -140,9 +140,10 @@ class DataValidation:
                 logging.info("test file target column does not match with schema file")
 
             validation_status = train_checked and test_checked
-
+            logging.info(f"Validation status {validation_status}")
             return validation_status
         except Exception as e:
+            logging.error(ConcreteException(e, sys))
             raise ConcreteException(e, sys) from e
 
     def get_and_save_data_drift_report(self):
@@ -167,6 +168,7 @@ class DataValidation:
                 json.dump(report, report_file, indent=6)
             return report
         except Exception as e:
+            logging.error(ConcreteException(e, sys))
             raise ConcreteException(e, sys) from e
 
     def save_data_drift_report_page(self):
@@ -185,6 +187,7 @@ class DataValidation:
 
             dashboard.save(report_page_file_path)
         except Exception as e:
+            logging.error(ConcreteException(e, sys))
             raise ConcreteException(e, sys)from e
 
     def is_data_drift_found(self) -> bool:
@@ -193,10 +196,11 @@ class DataValidation:
         return: True if data drift found or False if not found
         """
         try:
-            report = self.get_and_save_data_drift_report()
+            self.get_and_save_data_drift_report()
             self.save_data_drift_report_page()
             return True
         except Exception as e:
+            logging.error(ConcreteException(e, sys))
             raise ConcreteException(e, sys) from e
 
     def initiate_data_validation(self) -> DataValidationArtifact:
@@ -222,6 +226,7 @@ class DataValidation:
             logging.info(f"Data validation artifact: {data_validation_artifact}")
             return data_validation_artifact
         except Exception as e:
+            logging.error(ConcreteException(e, sys))
             raise ConcreteException(e, sys) from e
 
     def __del__(self):
