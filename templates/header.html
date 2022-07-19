@@ -32,18 +32,18 @@ width:100%;
 overflow:scroll;
 table-layout: fixed;
     width: 100%;
-
     overflow:scroll;
     min-height: 400px; /* table height here */
   border-collapse: collapse;
     }
 
     th,td {
+        color: white !important;
         text-align:left;
     word-wrap: break-word;
 }
 </style>
-<body style="background-color: #f1f1f1;">
+<body style="background-color: #000000;color:white">
 
 
 
@@ -83,7 +83,7 @@ table-layout: fixed;
                         <a class="nav-link {% if 'predict' in request.path %} active {% endif %}" href="/view_experiment_hist">Experiment History</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {% if 'artifact/data' in request.path %} active {% endif %}" href="/artifact/concrete/artifact/">Data Drift</a>
+                        <a class="nav-link {% if 'artifact/concrete/artifact/data_validation' in request.path %} active {% endif %}" href="/artifact/concrete/artifact/data_validation">Data Drift</a>
                     </li>
                 </ul>
             </div>
@@ -117,8 +117,8 @@ table-layout: fixed;
                 <li class="list-group-item py-1 {% if 'update_model_config' in request.path %} active {% endif %}">
                     <a style=" text-decoration: none;color:black" href="/update_model_config">Update Model Config</a>
                 </li>
-                <li class="list-group-item py-1 {% if 'artifact/concrete/artifact' in request.path %} active {% endif %}">
-                    <a style=" text-decoration: none;color:black" href="/artifact/concrete/artifact/">Data Drift</a>
+                <li class="list-group-item py-1 {% if 'artifact/concrete/artifact/data_validation' in request.path %} active {% endif %}">
+                    <a style=" text-decoration: none;color:black" href="/artifact/concrete/artifact/data_validation">Data Drift</a>
                 </li>
             </ul>
 
