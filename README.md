@@ -120,7 +120,59 @@ use other model.
 
 In Model pusher we push best model from model evaluation and
 use it to predict concrete compressive strength.
-.
+
+## Structure of Project
+
+```
+oncrete_compressive_strength_prediction
+   ├── config
+   |   ├──config.yaml --> Essential Values For configuration 
+   |   ├──model.yaml --> Essential Values for model training
+   │   └──schema.yaml --> Essential Values for Data Evaluation of dataset
+   ├── concret
+   |   ├──component
+   |   |  ├──data_ingestion.py 
+   |   |  ├──data_transformation.py
+   |   |  ├──data_validation.py
+   |   |  ├──model_evaluation.py
+   |   |  ├──model_pusher.py
+   |   |  └──model_trainer.py
+   |   ├──config
+   |   |  └──configuration.py --> Classs and Functions created for components to get artifact paths and config path
+   |   ├──constant
+   |   |  └──_init_.py --> Declared the folder and files names from config (root folder) to config (concrete/config)
+   |   ├──entity
+   |   |  ├──_init_.py
+   |   |  ├──artifact_entity.py --> For defining Named tuple skeleton for artifact related operation
+   |   |  ├──config_entity.py --> For defining Named tuple skeleton for configuration related operation
+   |   |  └──model_factory.py --> For training model and creating YAML template for training model
+   |   ├──exception
+   |   |  └──_init_.py --> Custom Exception to get line and file name to see errors  
+   |   ├──logger
+   |   |  └──_init_.py --> To get logs based on timestamp
+   |   ├──pipeline
+   |   |  └──pipeline.py --> To run the setup
+   │   └──util
+   |      ├──_init_.py
+   |      └──util.py
+   ├── .github
+   |   └──workflows
+   |      └──main.yaml --> YAML file for Heroku/Amazon deployment using GitHub Action and Creating docker container
+   |── app.py 
+   |── requirement.txt
+   |── setup.py
+   └── Dockerfile --> File for creating docker image
+```
 
 
 
+# Web Deployment
+
+Link:- [Concrete_compressive_strength_prediction](https://concrete-predictor.herokuapp.com/)
+
+![](/images/Screenshot.png)
+
+
+## Tools Used
+
+![](https://freepngimg.com/thumb/python_logo/5-2-python-logo-png-image-thumb.png)   <img height="200" src="https://dashboard.snapcraft.io/site_media/appmedia/2017/11/PyCharmCore256.png" width="200"/>   <img height="200" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Visual_Studio_Code_1.35_icon.svg/2048px-Visual_Studio_Code_1.35_icon.svg.png" width="200"/> 
